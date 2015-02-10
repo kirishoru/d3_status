@@ -91,7 +91,23 @@
 			})
 			.attr("d", function (d, i, j) {
 				return arc(d, i, j);
-			});
+			})
+//////////comment out ".attr" above and uncomment ".attrTween" below for animation//////////
+//			.transition()
+//			.delay(function(d,i,j) {
+//				return i * 500;
+//			})
+//			.duration(500)
+//			.attrTween("d", function (d,i,j) {
+//				console.log(d);
+//				var s = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+//				return function (t) {
+//					d.endAngle = s(t);
+//					return arc(d,i,j);
+//				};
+//			})
+////////////////////////////////////////////////////////////////////////////////////////////
+			;
 
 		gs.on("mouseover", function () {
 			d3.select(this).select(".path0").attr("fill", "#ffb333");
