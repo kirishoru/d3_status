@@ -69,13 +69,9 @@
 			.startAngle(0)
 			.endAngle(2 * Math.PI);
 
-		var arc = d3.svg.arc()
-			.innerRadius(function (d, i, j) {
-				return 1 + cwidth * j;
-			})
-			.outerRadius(function (d, i, j) {
-				return cwidth * (j + 1);
-			});
+//		var arc = d3.svg.arc()
+//			.innerRadius(function (d, i, j) {return 1 + cwidth * j;})
+//			.outerRadius(function (d, i, j) {return cwidth * (j + 1);});
 
 		var path = gs.selectAll("path")
 			.data(function (d) {
@@ -89,23 +85,24 @@
 			.attr("fill", function (d, i) {
 				return color(i);
 			})
-			.attr("d", function (d, i, j) {
-				return arc(d, i, j);
+//			.attr("d", function (d, i, j) {
+//				return arc(d, i, j);
+//			})
+			.transition()
+			.delay(function(d,i,j) {
+				return i * 500;
 			})
-//////////comment out ".attr" above and uncomment ".attrTween" below for animation//////////
-//			.transition()
-//			.delay(function(d,i,j) {
-//				return i * 500;
-//			})
-//			.duration(500)
-//			.attrTween("d", function (d,i,j) {
-//				var s = d3.interpolate(d.startAngle + 0.1, d.endAngle);
-//				return function (t) {
-//					d.endAngle = s(t);
+			.duration(500)
+			.attrTween("d", function (d,i,j) {
+				var s = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+				return function (t) {
+					d.endAngle = s(t);
 //					return arc(d,i,j);
-//				};
-//			})
-////////////////////////////////////////////////////////////////////////////////////////////
+					return d3.svg.arc()
+						.innerRadius(function (d, i, j) {return 1 + cwidth * j;})
+						.outerRadius(function (d, i, j) {return cwidth * (j + 1);});
+				};
+			})
 			;
 
 		gs.on("mouseover", function () {
